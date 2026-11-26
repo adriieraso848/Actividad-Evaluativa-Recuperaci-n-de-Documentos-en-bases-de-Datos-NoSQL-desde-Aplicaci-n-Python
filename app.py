@@ -91,5 +91,38 @@ def aprendices_adso_certificados():
 
     return jsonify(list(resultado))
 
+# Consulta 10.5: Aprendices por ficha en estado Por certificar
+@app.route("/api/aprendices/ficha/<int:ficha>/por-certificar/<int:cantidad>", methods=["GET"])
+def aprendices_por_certificar(ficha, cantidad):
+    print("Ficha consultada:", ficha)
+    print(
+        "Total de aprendices en la ficha:",
+        aprendices.count_documents({"FICHA": ficha})
+    )
+    print(
+        "Estados de los aprendices:",
+        aprendices.distinct("ESTADO_APRENDIZ", {"FICHA": ficha})
+    )
+    resultado = aprendices.find(
+        {
+            "FICHA": ficha,
+            "ESTADO_APRENDIZ": "Por certificar"
+        },
+        {
+            "_id": 0,
+            "FICHA": 1,
+            "PROGRAMA": 1,
+            "NUMERO_DOCUMENTO": 1,
+            "NOMBRE": 1,
+            "PRIMER_APELLIDO": 1,
+            "SEGUNDO_APELLIDO": 1
+        }
+    ).sort("PRIMER_APELLIDO", -1).limit(cantidad)
+    return jsonify(list(resultado))
+
+print("\nRUTAS REGISTRADAS:")
+print(app.url_map)
+
 if __name__ == "__main__":
     app.run(debug=True)
+    
