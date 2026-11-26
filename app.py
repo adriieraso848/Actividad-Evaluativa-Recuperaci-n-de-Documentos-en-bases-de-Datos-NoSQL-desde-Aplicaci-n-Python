@@ -70,6 +70,26 @@ def programas_tecnologo():
     return jsonify({
         "programas": programas
     })
+    
+# Consulta 10.4: Aprendices certificados de ADSO
+@app.route("/api/aprendices/adso/certificados", methods=["GET"])
+def aprendices_adso_certificados():
+
+    resultado = aprendices.find(
+        {
+            "PROGRAMA": "ANALISIS Y DESARROLLO DE SOFTWARE.",
+            "ESTADO_APRENDIZ": "Certificado"
+        },
+        {
+            "_id": 0,
+            "FICHA": 1,
+            "NOMBRE": 1,
+            "PRIMER_APELLIDO": 1,
+            "SEGUNDO_APELLIDO": 1
+        }
+    )
+
+    return jsonify(list(resultado))
 
 if __name__ == "__main__":
     app.run(debug=True)
