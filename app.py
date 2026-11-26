@@ -58,7 +58,18 @@ def aprendices_por_nivel():
 
     return jsonify(list(resultado))
 
-#hollaa
+# Consulta 10.3: Programas de nivel TECNÓLOGO
+@app.route("/api/programas/tecnologo", methods=["GET"])
+def programas_tecnologo():
+
+    programas = aprendices.distinct(
+        "PROGRAMA",
+        {"NIVEL_DE_FORMACION": "TECNÓLOGO"}
+    )
+
+    return jsonify({
+        "programas": programas
+    })
 
 if __name__ == "__main__":
     app.run(debug=True)
