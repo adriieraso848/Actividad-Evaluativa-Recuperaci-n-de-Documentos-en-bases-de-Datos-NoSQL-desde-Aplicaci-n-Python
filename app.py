@@ -120,8 +120,25 @@ def aprendices_por_certificar(ficha, cantidad):
     ).sort("PRIMER_APELLIDO", -1).limit(cantidad)
     return jsonify(list(resultado))
 
-print("\nRUTAS REGISTRADAS:")
-print(app.url_map)
+# Consulta 10.6: Aprendices con ficha terminada por unificación
+@app.route("/api/aprendices/fichas/unificacion", methods=["GET"])
+def aprendices_unificacion():
+
+    resultado = aprendices.find(
+        {
+            "ESTADO_FICHA": "Terminada por unificación"
+        },
+        {
+            "_id": 0,
+            "FICHA": 1,
+            "NUMERO_DOCUMENTO": 1,
+            "NOMBRE": 1,
+            "PRIMER_APELLIDO": 1,
+            "SEGUNDO_APELLIDO": 1
+        }
+    )
+
+    return jsonify(list(resultado))
 
 if __name__ == "__main__":
     app.run(debug=True)
