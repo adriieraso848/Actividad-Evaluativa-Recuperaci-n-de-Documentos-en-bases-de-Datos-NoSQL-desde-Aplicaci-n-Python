@@ -58,5 +58,7 @@ def aprendices_por_nivel():
 
     return jsonify(list(resultado))
 
+#hollaa
+
 if __name__ == "__main__":
     app.run(debug=True)
