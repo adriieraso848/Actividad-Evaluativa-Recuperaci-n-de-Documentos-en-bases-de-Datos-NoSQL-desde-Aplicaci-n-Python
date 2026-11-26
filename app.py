@@ -160,6 +160,20 @@ def aprendices_power_bi():
 
     return jsonify(list(resultado))
 
+# Consulta 10.8: Cantidad de aprendices certificados de Power BI
+@app.route("/api/aprendices/programa/power-bi/certificados", methods=["GET"])
+def cantidad_certificados_power_bi():
+
+    cantidad = aprendices.count_documents({
+        "PROGRAMA": "VISUALIZACION DE DATOS USANDO POWER BI",
+        "ESTADO_APRENDIZ": "Certificado"
+    })
+
+    return jsonify({
+        "programa": "VISUALIZACION DE DATOS USANDO POWER BI",
+        "cantidad_certificados": cantidad
+    })
+
 if __name__ == "__main__":
     app.run(debug=True)
     
