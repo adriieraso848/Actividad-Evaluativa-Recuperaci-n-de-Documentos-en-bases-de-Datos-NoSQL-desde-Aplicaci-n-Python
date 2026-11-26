@@ -207,6 +207,21 @@ def aprendices_por_estado():
 
     return jsonify(list(resultado))
 
+# Consulta 10.10: Programas de formación complementaria virtual
+@app.route("/api/programas/complementaria-virtual", methods=["GET"])
+def programas_complementaria_virtual():
+
+    programas = aprendices.distinct(
+        "PROGRAMA",
+        {
+            "NIVEL_DE_FORMACION": "COMPLEMENTARIA VIRTUAL"
+        }
+    )
+
+    return jsonify({
+        "programas": programas
+    })
+
 if __name__ == "__main__":
     app.run(debug=True)
     
