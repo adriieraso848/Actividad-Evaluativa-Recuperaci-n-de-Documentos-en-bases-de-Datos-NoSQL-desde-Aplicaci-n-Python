@@ -173,6 +173,39 @@ def cantidad_certificados_power_bi():
         "programa": "VISUALIZACION DE DATOS USANDO POWER BI",
         "cantidad_certificados": cantidad
     })
+    
+    
+# Consulta 10.9: Aprendices agrupados por estado
+@app.route("/api/aprendices/ficha/3312932/estados", methods=["GET"])
+def aprendices_por_estado():
+
+    resultado = aprendices.aggregate([
+        {
+            "$match": {
+                "FICHA": 3312932
+            }
+        },
+        {
+            "$group": {
+                "_id": "$ESTADO_APRENDIZ",
+                "cantidad": {"$sum": 1}
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,
+                "estado": "$_id",
+                "cantidad": 1
+            }
+        },
+        {
+            "$sort": {
+                "estado": 1
+            }
+        }
+    ])
+
+    return jsonify(list(resultado))
 
 if __name__ == "__main__":
     app.run(debug=True)
